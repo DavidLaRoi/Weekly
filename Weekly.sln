@@ -10,6 +10,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Weekly.Commands", "Weekly.C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Weekly.Desktop", "Weekly.Desktop\Weekly.Desktop.csproj", "{159F123B-7AEA-4DDF-AD87-1F256E4C855C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Weekly.API", "Weekly.API\Weekly.API.csproj", "{A837894C-3E68-4DDF-B147-36C7576CC8CB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,6 +34,10 @@ Global
 		{159F123B-7AEA-4DDF-AD87-1F256E4C855C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{159F123B-7AEA-4DDF-AD87-1F256E4C855C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{159F123B-7AEA-4DDF-AD87-1F256E4C855C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A837894C-3E68-4DDF-B147-36C7576CC8CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A837894C-3E68-4DDF-B147-36C7576CC8CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A837894C-3E68-4DDF-B147-36C7576CC8CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A837894C-3E68-4DDF-B147-36C7576CC8CB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
