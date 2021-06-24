@@ -38,8 +38,8 @@
         <TextBox Text="{Binding LastName}" Grid.Row="1" Grid.Column="1"/>
         <TextBox Text="{Binding Age}" Grid.Row="2" Grid.Column="1"/>
 
-        <Button Grid.Row="3" Content="Undo"/>
-        <Button Grid.Row="3" Grid.Column="1" Content="Redo"/>
+        <Button Grid.Row="3" Content="Undo" Command="{Binding UndoCommand}"/>
+        <Button Grid.Row="3" Grid.Column="1" Command="{Binding RedoCommand}" Content="Redo"/>
 
     </Grid>
 </Window>

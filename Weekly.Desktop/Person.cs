@@ -27,7 +27,7 @@ namespace Weekly.Desktop
             using (PauseTracking())
             {
                 Name = model.Name;
-                LastName = model.Name;
+                LastName = model.LastName;
                 Age = model.Age;
             }
         }

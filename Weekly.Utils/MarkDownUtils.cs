@@ -12,17 +12,17 @@ namespace Weekly.Utils
 
 
 
-        public static string Table(object[][] enumerable)
-        {
-            if (enumerable.Length == 0) return string.Empty;
-            int maxColumns = enumerable.Select((x) => x.Length).Max();
+        //public static string Table(object[][] enumerable)
+        //{
+        //    if (enumerable.Length == 0) return string.Empty;
+        //    int maxColumns = enumerable.Select((x) => x.Length).Max();
 
-        }
+        //}
 
-        public static string Table(IEnumerable<object[]> enumerable, "")
-        {
-            return Table(enumerable.ToArray());
-        }
+        //public static string Table(IEnumerable<object[]> enumerable, "")
+        //{
+        //    return Table(enumerable.ToArray());
+        //}
 
         public static string Table(IEnumerable<IEnumerable<object>> vs)
         {

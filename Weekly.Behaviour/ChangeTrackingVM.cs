@@ -1,12 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using System.Windows.Input;
 using Weekly.Utils;
 
 namespace Weekly.Behaviour
 {
     public class ChangeTrackingVM<T> : ViewModel<T>
     {
+        public ChangeTrackingVM()
+        {
+            undoCommand = new RelayCommand((_) => CT.Undo(), (_) => CT.CanUndo); 
+            redoCommand = new RelayCommand((_) => CT.Redo(), (_) => CT.CanRedo);
+        }
+
         private bool track = true;
 
         private void EnableTrack()
@@ -55,11 +62,15 @@ namespace Weekly.Behaviour
             public void Redo()
             {
                 parent.SetValue(propertyName, newValue);
+                parent.redoCommand.RaiseCanExecuteChanged();
+                parent.undoCommand.RaiseCanExecuteChanged();
             }
 
             public void Undo()
             {
                 parent.SetValue(propertyName, oldValue);
+                parent.redoCommand.RaiseCanExecuteChanged();
+                parent.undoCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -73,6 +84,8 @@ namespace Weekly.Behaviour
                 if (track)
                 {
                     CT.Track(new PropertyChange(this, propertyName, oldValue, newValue));
+                    redoCommand.RaiseCanExecuteChanged();
+                    undoCommand.RaiseCanExecuteChanged();
                 }
             }
         }
@@ -88,6 +101,40 @@ namespace Weekly.Behaviour
             return Values[propertyName] is T val ? val : default;
         }
 
+        #region Commands
 
+        public ICommand UndoCommand => undoCommand;
+
+        private RelayCommand undoCommand;
+
+        private void Undo(object _)
+        {
+            CT.Undo();
+            redoCommand.RaiseCanExecuteChanged();
+            undoCommand.RaiseCanExecuteChanged();
+        }
+
+        private bool CanUndo(object _)
+        {
+            return CT.CanUndo;
+        }
+
+        public ICommand RedoCommand => redoCommand;
+
+        private RelayCommand redoCommand;
+
+        private void Redo(object _)
+        {
+            CT.Redo();
+            redoCommand.RaiseCanExecuteChanged();
+            undoCommand.RaiseCanExecuteChanged();
+        }
+
+        private bool CanRedo(object _)
+        {
+            return CT.CanRedo;
+        }
+
+        #endregion
     }
 }

@@ -24,6 +24,7 @@ namespace Weekly.Behaviour
         public void Execute(object parameter)
         {
             execute(parameter);
+            RaiseCanExecuteChanged();
         }
 
         public void RaiseCanExecuteChanged()

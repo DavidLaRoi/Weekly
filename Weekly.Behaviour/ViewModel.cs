@@ -3,7 +3,6 @@ using System.Runtime.CompilerServices;
 
 namespace Weekly.Behaviour
 {
-
     public class ViewModel<T> : INotifyPropertyChanged
     {
         private T model;
