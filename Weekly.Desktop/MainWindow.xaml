@@ -5,8 +5,41 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Weekly.Desktop"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800" Loaded="Window_Loaded">
+    <Window.Resources>
+        <Style TargetType="Control" x:Key="ControlStyle">
+            <Style.Setters>
+                <Setter Property="Margin" Value="10"/>
+            </Style.Setters>
+        </Style>
+        <Style TargetType="Label" BasedOn="{StaticResource ControlStyle}"/>
+        <Style TargetType="TextBox" BasedOn="{StaticResource ControlStyle}"/>
+        <Style TargetType="Button" BasedOn="{StaticResource ControlStyle}"/>
+
+    </Window.Resources>
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Label Content="First name" FontSize="25" Grid.Row="0"/>
+        <Label Content="Last name" FontSize="25" Grid.Row="1"/>
+        <Label Content="Age" FontSize="25" Grid.Row="2"/>
+
+        <TextBox Text="{Binding Name}" Grid.Row="0" Grid.Column="1"/>
+        <TextBox Text="{Binding LastName}" Grid.Row="1" Grid.Column="1"/>
+        <TextBox Text="{Binding Age}" Grid.Row="2" Grid.Column="1"/>
+
+        <Button Grid.Row="3" Content="Undo"/>
+        <Button Grid.Row="3" Grid.Column="1" Content="Redo"/>
 
     </Grid>
 </Window>

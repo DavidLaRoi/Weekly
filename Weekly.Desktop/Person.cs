@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Weekly;
-using Weekly.Behaviour;
+﻿using Weekly.Behaviour;
 
 namespace Weekly.Desktop
 {
@@ -16,9 +12,43 @@ namespace Weekly.Desktop
 
     }
 
-    public class PersonViewModel
+    public class PersonViewModel : ChangeTrackingVM<Person>
     {
+        public PersonViewModel()
+        {
+            AddProps(
+                nameof(Name),
+                nameof(LastName),
+                nameof(Age));
+        }
 
+        protected override void HookModel(Person model)
+        {
+            using (PauseTracking())
+            {
+                Name = model.Name;
+                LastName = model.Name;
+                Age = model.Age;
+            }
+        }
+
+        public string Name
+        {
+            get => GetValue<string>();
+            set => TrackPropertyChange(value);
+        }
+
+        public string LastName
+        {
+            get => GetValue<string>();
+            set => TrackPropertyChange(value);
+        }
+
+        public int Age
+        {
+            get => GetValue<int>();
+            set => TrackPropertyChange(value);
+        }
     }
 
 

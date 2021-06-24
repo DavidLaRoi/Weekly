@@ -24,5 +24,10 @@ namespace Weekly.Desktop
         {
             InitializeComponent();
         }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            DataContext = new PersonViewModel() { Model = new Person() };
+        }
     }
 }
