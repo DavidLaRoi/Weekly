@@ -4,45 +4,45 @@ using System.Runtime.CompilerServices;
 using System.Linq;
 namespace Weekly.Data
 {
+    //public class DTO
+    //{
+    //    public Guid ID;
+    //}
 
-    public class Tracker
-    {
-        private readonly Hashtable Values = new Hashtable();
+    //public class Person : DTO
+    //{
 
-        protected T Get<T>([CallerMemberName] string propertyName = null)
-        {
-            return Values[propertyName] is T t ? t : default;
-        }
+    //}
 
-        protected void Set<T>(T value, [CallerMemberName] string propertyName = null)
-        {
-            Values[propertyName] = value;
-        }
+    //public class Schedule : DTO
+    //{
 
-        public override string ToString()
-        {
-            return $"{{{string.Join(", ",Values.OfType<DictionaryEntry>().Select((x) => $"{x.Key} = {x.Value}"))}}}";
-        }
-    }
+    //}
 
-    public class Activity
-    {
-    }
 
-    public class ActivityGroup : Tracker
-    {
-        public string Name
-        {
-            get => Get<string>();
-            set => Set(value);
-        }
 
-        public string Description
-        {
-            get => Get<string>();
-            set => Set(value);
-        }
-    }
+    //public class Activity : DTO
+    //{
 
+    //}
+
+    //public class ActivityGroup : DTO
+    //{
+
+    //}
+
+    ////a group of backlog items
+    ////special activity can point to this backlog.
+    //public class Backlog : DTO
+    //{
+
+    //}
+
+    ////a todo thingy
+    ////hierarchisch.
+    //public class BacklogItem : DTO
+    //{
+    //    public BacklogItem Parent;
+    //}
 
 }

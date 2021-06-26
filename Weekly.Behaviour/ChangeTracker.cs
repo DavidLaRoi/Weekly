@@ -17,7 +17,7 @@ namespace Weekly.Behaviour
             headIndex = -1;
         }
 
-        public bool CanRedo => headIndex >= 0 && headIndex < changes.Count - 1;
+        public bool CanRedo => headIndex < changes.Count - 1;
 
         public bool CanUndo => headIndex >= 0;
 
@@ -28,7 +28,7 @@ namespace Weekly.Behaviour
 
         public void Track(IChange change)
         {
-            if (headIndex >= 0 && headIndex < changes.Count - 1)
+            if (headIndex < changes.Count - 1)
             {
                 changes.RemoveRange(headIndex + 1, changes.Count - headIndex - 1);
             }

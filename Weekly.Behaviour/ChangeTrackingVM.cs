@@ -10,8 +10,8 @@ namespace Weekly.Behaviour
     {
         public ChangeTrackingVM()
         {
-            undoCommand = new RelayCommand((_) => CT.Undo(), (_) => CT.CanUndo); 
-            redoCommand = new RelayCommand((_) => CT.Redo(), (_) => CT.CanRedo);
+            undoCommand = new RelayCommand(Undo, CanUndo); 
+            redoCommand = new RelayCommand(Redo, CanRedo);
         }
 
         private bool track = true;
