@@ -118,6 +118,6 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Scaffold string" xml:space="preserve">
-    <value>Scaffold-DbContext "Server=DESKTOP-V2N2JBV\SQLEXPRESS;Database=Weekly;Trusted_Connection=True;" "Microsoft.EntityFrameworkCore.SqlServer" -OutputDir "Models"</value>
+    <value>Scaffold-DbContext "Server=DESKTOP-V2N2JBV\SQLEXPRESS;Database=Weekly;Trusted_Connection=True;" "Microsoft.EntityFrameworkCore.SqlServer" -OutputDir "Models" -Context "WeeklyContextBase" -Force</value>
   </data>
 </root>

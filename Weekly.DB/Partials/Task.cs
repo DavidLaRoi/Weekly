@@ -6,17 +6,17 @@ using System.Linq;
 namespace Weekly.DB.Models
 {
 
-    //public partial class Task
-    //{
-    //    [NotMapped]
-    //    public IEnumerable<Task> Parents => ParentTasks.Select((x) => x.ParentTask);
+    public partial class Task
+    {
+        [NotMapped]
+        public IEnumerable<Task> Parents => TaskHasTaskSubTasks.Select((x) => x.ParentTask);
 
-    //    [NotMapped]
-    //    public IEnumerable<Task> Children => ChildTasks.Select((x) => x.SubTask);
+        [NotMapped]
+        public IEnumerable<Task> Children => TaskHasTaskParentTasks.Select((x) => x.SubTask);
 
-    //    public override string ToString()
-    //    {
-    //        return Name;
-    //    }
-    //}
+        public override string ToString()
+        {
+            return Name;
+        }
+    }
 }

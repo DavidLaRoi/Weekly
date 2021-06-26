@@ -14,7 +14,7 @@ namespace Weekly.Commands
             IServiceCollection serviceCollection = new ServiceCollection();
 
             serviceCollection.AddTransient<IConnectionStringProvider, ConnectionStringProvider>();
-            serviceCollection.AddScoped<WeeeklyContext>();
+            serviceCollection.AddScoped<WeeklyContext>();
 
             Provider = serviceCollection.BuildServiceProvider();
         }
@@ -29,10 +29,9 @@ namespace Weekly.Commands
             using var scope = Provider.CreateScope();
             var provider = scope.ServiceProvider;
 
-            var context = provider.GetService<WeeeklyContext>();
+            var context = provider.GetService<WeeklyContext>();
 
-            var items = context.Tasks.Include((x) => x.ParentTasks).ToList();
-            var items2 = context.Tasks.Include((x) => x.ParentTasks).ToList();
+            var items = context.Tasks.Include((x) => x.TaskHasTaskParentTasks).ToList();
 
             var uber = items.Where((x) => x.Name.ToLower().Contains("uber")).FirstOrDefault();
 

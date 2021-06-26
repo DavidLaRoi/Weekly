@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Weekly.DB.Partials
+namespace Weekly.DB.Models
 {
     public class ValueResult<T>
     {

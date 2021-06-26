@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Text;
-using Weekly.DB.Partials;
 using static Microsoft.EntityFrameworkCore.RelationalDatabaseFacadeExtensions;
 using static Weekly.Utils.Extensions;
 
@@ -12,8 +11,6 @@ namespace Weekly.DB.Models
     public class WeeklyContext : WeeklyContextBase
     {
         private IConnectionStringProvider connectionStringProvider;
-
-        //public virtual DbSet<ValueResult<int>> ValueResults { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -31,8 +28,6 @@ namespace Weekly.DB.Models
             {
                 entity.HasNoKey();
             });
-
-
         }
 
         private static IEnumerable<string> Args(int length)
@@ -58,9 +53,8 @@ namespace Weekly.DB.Models
         /// <returns></returns>
         public bool VerifyChildTaskEntry(Task parentTask, Task childTask)
         {
-            return GetResult<int>(Arr(parentTask.Id, childTask.Id), nameof(VerifyChildTaskEntry)) == 0;
+            return GetResult<int>(Arr(parentTask.Id, childTask.Id)) == 0;
         }
-
 
         public WeeklyContext(IConnectionStringProvider connectionStringProvider)
         {
