@@ -6,13 +6,13 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace Weekly.DB.Models
 {
-    public partial class WeeklyContext : DbContext
+    public partial class WeeklyContextBase : DbContext
     {
-        public WeeklyContext()
+        public WeeklyContextBase()
         {
         }
 
-        public WeeklyContext(DbContextOptions<WeeklyContext> options)
+        public WeeklyContextBase(DbContextOptions<WeeklyContextBase> options)
             : base(options)
         {
         }

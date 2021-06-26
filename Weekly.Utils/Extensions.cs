@@ -6,6 +6,7 @@ namespace Weekly.Utils
 {
     public static class Extensions
     {
+        public static object[] Arr(params object[] vs) => vs;
 
         public static IDisposable DoAtDispose(Action action)
         {
