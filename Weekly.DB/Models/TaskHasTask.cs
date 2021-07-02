@@ -7,11 +7,12 @@ namespace Weekly.DB.Models
 {
     public partial class TaskHasTask
     {
+        public Guid Id { get; set; }
         public Guid ParentTaskId { get; set; }
-        public Guid SubTaskId { get; set; }
-        public int Index { get; set; }
+        public Guid ChildTaskId { get; set; }
+        public int Rank { get; set; }
 
+        public virtual Task ChildTask { get; set; }
         public virtual Task ParentTask { get; set; }
-        public virtual Task SubTask { get; set; }
     }
 }

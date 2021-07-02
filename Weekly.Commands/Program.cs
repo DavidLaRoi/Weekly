@@ -14,6 +14,7 @@ namespace Weekly.Commands
             IServiceCollection serviceCollection = new ServiceCollection();
 
             serviceCollection.AddTransient<IConnectionStringProvider, ConnectionStringProvider>();
+            serviceCollection.AddSingleton<IContextConfigurer, DefaultContextConfigurer>();
             serviceCollection.AddScoped<WeeklyContext>();
 
             Provider = serviceCollection.BuildServiceProvider();

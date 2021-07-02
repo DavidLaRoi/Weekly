@@ -9,10 +9,10 @@ namespace Weekly.DB.Models
     public partial class Task
     {
         [NotMapped]
-        public IEnumerable<Task> Parents => TaskHasTaskSubTasks.Select((x) => x.ParentTask);
+        public IEnumerable<Task> Parents => TaskHasTaskChildTasks.Select((x) => x.ParentTask);
 
         [NotMapped]
-        public IEnumerable<Task> Children => TaskHasTaskParentTasks.Select((x) => x.SubTask);
+        public IEnumerable<Task> Children => TaskHasTaskParentTasks.Select((x) => x.ChildTask);
 
         public override string ToString()
         {

@@ -9,15 +9,18 @@ namespace Weekly.DB.Models
     {
         public Task()
         {
+            TaskHasTaskChildTasks = new HashSet<TaskHasTask>();
             TaskHasTaskParentTasks = new HashSet<TaskHasTask>();
-            TaskHasTaskSubTasks = new HashSet<TaskHasTask>();
         }
 
         public Guid Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public TimeSpan? Duration { get; set; }
+        public Guid? GroupId { get; set; }
 
+        public virtual Group Group { get; set; }
+        public virtual ICollection<TaskHasTask> TaskHasTaskChildTasks { get; set; }
         public virtual ICollection<TaskHasTask> TaskHasTaskParentTasks { get; set; }
-        public virtual ICollection<TaskHasTask> TaskHasTaskSubTasks { get; set; }
     }
 }

@@ -10,15 +10,20 @@ namespace Weekly.DB.Models
 {
     public class WeeklyContext : WeeklyContextBase
     {
-        private IConnectionStringProvider connectionStringProvider;
+        private IContextConfigurer dbConfigurer;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseSqlServer(connectionStringProvider.GetConnectionString());
-            }
+            dbConfigurer?.OnConfiguring(optionsBuilder);
+
+            //if (Database.EnsureCreated())
+            //{
+            //    //database is created, we need to add some function??.
+            //}
+            //this method replaces the default configuring method.
+            //base.OnConfiguring(optionsBuilder);
         }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -56,9 +61,9 @@ namespace Weekly.DB.Models
             return GetResult<int>(Arr(parentTask.Id, childTask.Id)) == 0;
         }
 
-        public WeeklyContext(IConnectionStringProvider connectionStringProvider)
+        public WeeklyContext(IContextConfigurer dbConfigurer)
         {
-            this.connectionStringProvider = connectionStringProvider;
+            this.dbConfigurer = dbConfigurer;
         }
     }
 }
