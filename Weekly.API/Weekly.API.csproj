@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="NSwag.Core" Version="13.11.3" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Weekly.Data\Weekly.Data.csproj" />
     <ProjectReference Include="..\Weekly.DB\Weekly.DB.csproj" />
   </ItemGroup>
