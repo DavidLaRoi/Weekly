@@ -2,11 +2,9 @@
 
 namespace Weekly.Data
 {
-    public class Group
+    public class Group : DataItem
     {
-        public Guid ID { get; set; }
 
-        public string Name { get; set; }
     }
 
 }

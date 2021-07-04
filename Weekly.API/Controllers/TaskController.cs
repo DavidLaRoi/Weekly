@@ -6,8 +6,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Models = Weekly.DB.Models;
 
-namespace Weekly.API
+namespace Weekly.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -23,10 +24,9 @@ namespace Weekly.API
             var prov = scope.ServiceProvider;
             using var context = prov.GetRequiredService<Weekly.DB.Models.WeeklyContext>();
 
-            var tasks = context.Tasks.Include((x) => x.Group);
-
+            IQueryable<Models.Task> tasks = context.Tasks.Include((x) => x.Group);
             
-            if (groupID.HasValue) tasks = tasks.Where((x) => x.t.GroupId == groupID);
+            if (groupID.HasValue) tasks = tasks.Where((x) => x.GroupId == groupID);
 
             foreach(var dbTask in tasks)
             {
@@ -41,7 +41,7 @@ namespace Weekly.API
         }
 
         [HttpGet]
-        public List<Weekly.Data.Task> GetChildTasks(Guid taskId)
+        public List<Data.Task> GetChildTasks(Guid taskId)
         {
             using var scope = provider.CreateScope();
             var prov = scope.ServiceProvider;

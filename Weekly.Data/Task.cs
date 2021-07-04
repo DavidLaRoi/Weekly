@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Weekly.Data
 {
-    public class Task
+    public class DataItem
     {
         public Guid ID { get; set; }
 
@@ -11,6 +11,10 @@ namespace Weekly.Data
 
         public string Description { get; set; }
 
+    }
+
+    public class Task : DataItem
+    {
         public Group Group { get; set; }
 
         public List<Task> Tasks { get; set; }
