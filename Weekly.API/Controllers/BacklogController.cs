@@ -11,5 +11,10 @@ namespace Weekly.API.Controllers
     [ApiController]
     public class BacklogController : ControllerBase
     {
+        [HttpGet]
+        public IEnumerable<Data.Backlog> GetBacklogs()
+        {
+            yield break;
+        }
     }
 }

@@ -141,7 +141,8 @@ namespace Weekly.DB.Models
 
                 entity.Property(e => e.Id)
                     .ValueGeneratedNever()
-                    .HasColumnName("ID");
+                    .HasColumnName("ID")
+                    .HasDefaultValueSql("(newid())");
 
                 entity.Property(e => e.Name)
                     .IsRequired()

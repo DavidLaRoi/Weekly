@@ -28,6 +28,5 @@ namespace Weekly.Utils
                 action = null;
             }
         }
-
     }
 }

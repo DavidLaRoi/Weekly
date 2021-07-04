@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Weekly.DB.Models
 {
-    public partial class TaskCte
+    public partial class TaskCte 
     {
         public Guid? RootId { get; set; }
         public Guid? ParentId { get; set; }

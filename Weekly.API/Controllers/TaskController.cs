@@ -16,6 +16,11 @@ namespace Weekly.API.Controllers
     {
         private IServiceProvider provider;
 
+        public TaskController(IServiceProvider provider)
+        {
+            this.provider = provider;
+        }
+
         [HttpGet]
         public IEnumerable<Weekly.Data.Task> GetTasks(Guid? groupID = null)
         {
@@ -39,7 +44,7 @@ namespace Weekly.API.Controllers
             }
         }
 
-        [HttpGet]
+        [HttpGet("GetChilds")]
         public List<Data.Task> GetChildTasks(Guid taskId)
         {
             using var scope = provider.CreateScope();

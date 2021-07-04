@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Weekly.DB.Models
 {
-    public partial class BacklogItem
+    public partial class BacklogItem : Model
     {
         public BacklogItem()
         {
@@ -13,9 +13,6 @@ namespace Weekly.DB.Models
             BiHasBiParents = new HashSet<BiHasBi>();
         }
 
-        public Guid Id { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
         public Guid? PriorityId { get; set; }
         public DateTime? CompletedOn { get; set; }
         public Guid? BacklogId { get; set; }

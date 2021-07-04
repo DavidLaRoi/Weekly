@@ -28,6 +28,10 @@ namespace Weekly.API
         {
             services.AddControllers();
             services.AddDbContext<WeeklyContext>();
+            services.AddSingleton<IContextConfigurer, DefaultContextConfigurer>();
+            services.AddSingleton<IConnectionStringProvider, DefaultConnectionStringProvider>();
+
+            services.AddSwaggerDocument();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -41,6 +45,9 @@ namespace Weekly.API
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseOpenApi();
+            app.UseSwaggerUi3();
 
             app.UseAuthorization();
 

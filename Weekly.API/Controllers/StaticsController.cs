@@ -9,7 +9,7 @@ using Weekly.DB.Models;
 
 namespace Weekly.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/statics")]
     [ApiController]
     public class StaticsController : ControllerBase
     {

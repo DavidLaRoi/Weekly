@@ -14,7 +14,7 @@ namespace Weekly.Data
             return ID.GetHashCode();
         }
 
-        public Guid ID { get; set; }
+        public Guid? ID { get; set; }
 
         public string Name { get; set; }
 
