@@ -16,7 +16,6 @@ namespace Weekly.API.Controllers
     {
         private IServiceProvider provider;
 
-
         [HttpGet]
         public IEnumerable<Weekly.Data.Task> GetTasks(Guid? groupID = null)
         {

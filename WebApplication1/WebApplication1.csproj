@@ -8,5 +8,4 @@
     <ProjectReference Include="..\Weekly.DB\Weekly.DB.csproj" />
   </ItemGroup>
 
-
 </Project>
