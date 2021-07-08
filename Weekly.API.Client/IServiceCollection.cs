@@ -1,0 +1,4 @@
+﻿namespace Weekly.API.Client
+{
+
+}

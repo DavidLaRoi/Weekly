@@ -5,8 +5,10 @@ using System.Collections.Generic;
 
 namespace Weekly.DB.Models
 {
-    public partial class Schedule : Model
+    public partial class Schedule
     {
-
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
     }
 }

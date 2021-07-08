@@ -10,6 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Weekly.API.Interfaces\Weekly.API.Interfaces.csproj" />
     <ProjectReference Include="..\Weekly.Data\Weekly.Data.csproj" />
     <ProjectReference Include="..\Weekly.DB\Weekly.DB.csproj" />
   </ItemGroup>

@@ -1,0 +1,1 @@
+﻿Scaffold-DbContext "Server=DESKTOP-V2N2JBV\SQLEXPRESS;Database=Weekly;Trusted_Connection=True;" "Microsoft.EntityFrameworkCore.SqlServer" -OutputDir "Models" -Context "WeeklyContextBase" -Force -NoOnConfiguring

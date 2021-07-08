@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Weekly.DB.Models
 {
-    public partial class Task : Model
+    public partial class Task
     {
         public Task()
         {
@@ -13,6 +13,9 @@ namespace Weekly.DB.Models
             TaskHasTaskParentTasks = new HashSet<TaskHasTask>();
         }
 
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
         public TimeSpan? Duration { get; set; }
         public Guid? GroupId { get; set; }
 

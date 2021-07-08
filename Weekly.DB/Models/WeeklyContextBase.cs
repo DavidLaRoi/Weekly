@@ -28,15 +28,6 @@ namespace Weekly.DB.Models
         public virtual DbSet<TaskCte> TaskCtes { get; set; }
         public virtual DbSet<TaskHasTask> TaskHasTasks { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=DESKTOP-V2N2JBV\\SQLEXPRESS;Database=Weekly;Trusted_Connection=True;");
-            }
-        }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
@@ -86,6 +77,11 @@ namespace Weekly.DB.Models
                     .WithMany(p => p.BacklogItems)
                     .HasForeignKey(d => d.BacklogId)
                     .HasConstraintName("FK_BacklogItem_Backlog");
+
+                entity.HasOne(d => d.Priority)
+                    .WithMany(p => p.BacklogItems)
+                    .HasForeignKey(d => d.PriorityId)
+                    .HasConstraintName("FK_BacklogItem_Priority");
             });
 
             modelBuilder.Entity<BacklogItemCte>(entity =>
@@ -140,7 +136,6 @@ namespace Weekly.DB.Models
                 entity.ToTable("Priority");
 
                 entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
                     .HasColumnName("ID")
                     .HasDefaultValueSql("(newid())");
 
