@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Weekly.Data
+﻿namespace Weekly.Data
 {
     public class Group : DataItem
     {

@@ -2,15 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using System.Text;
-using static Microsoft.EntityFrameworkCore.RelationalDatabaseFacadeExtensions;
 using static Weekly.Utils.Extensions;
 
 namespace Weekly.DB.Models
 {
     public class WeeklyContext : WeeklyContextBase
     {
-        private IContextConfigurer dbConfigurer;
+        private readonly IContextConfigurer dbConfigurer;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -36,13 +34,16 @@ namespace Weekly.DB.Models
 
         private static IEnumerable<string> Args(int length)
         {
-            for (int i = 0; i < length; i++) yield return $"{{{i}}}";
+            for (int i = 0; i < length; i++)
+            {
+                yield return $"{{{i}}}";
+            }
         }
 
         protected T GetResult<T>(object[] args, [CallerMemberName] string functionName = null)
         {
-            var set = Set<ValueResult<T>>();
-            var query = FormattableStringFactory.Create($"SELECT [dbo].[{functionName}] ({string.Join(",", Args(args.Length))}) as Value", args);
+            DbSet<ValueResult<T>> set = Set<ValueResult<T>>();
+            FormattableString query = FormattableStringFactory.Create($"SELECT [dbo].[{functionName}] ({string.Join(",", Args(args.Length))}) as Value", args);
             return set.
                 FromSqlInterpolated(
                     query).

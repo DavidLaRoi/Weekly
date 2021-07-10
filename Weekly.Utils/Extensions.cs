@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Weekly.Utils
 {
@@ -15,7 +13,7 @@ namespace Weekly.Utils
 
         private class DoAtDisposeCls : IDisposable
         {
-            Action action;
+            private Action action;
 
             public DoAtDisposeCls(Action action)
             {

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Weekly.DB.Models
+﻿namespace Weekly.DB.Models
 {
     public class ValueResult<T>
     {

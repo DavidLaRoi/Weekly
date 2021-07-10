@@ -4,7 +4,7 @@ namespace Weekly.DB.Models
 {
     public class DefaultContextConfigurer : IContextConfigurer
     {
-        private IConnectionStringProvider connectionStringProvider;
+        private readonly IConnectionStringProvider connectionStringProvider;
 
         public DefaultContextConfigurer(IConnectionStringProvider connectionStringProvider)
         {

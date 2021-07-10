@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Weekly.DB
+﻿namespace Weekly.DB
 {
     public class Class1
     {

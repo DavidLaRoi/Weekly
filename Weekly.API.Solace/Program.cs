@@ -1,12 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc.ApiExplorer;
-using System;
+﻿using System;
 
 
 namespace Weekly.API.Solace
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             string url = Console.ReadLine();
             GenerateFile(url);
@@ -14,7 +13,7 @@ namespace Weekly.API.Solace
 
         private static void GenerateOpenApi()
         {
-            var g = new Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator(new Swashbuckle.AspNetCore.SwaggerGen.SwaggerGeneratorOptions
+            Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator g = new Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator(new Swashbuckle.AspNetCore.SwaggerGen.SwaggerGeneratorOptions
             {
 
             }, new poop(), new Swashbuckle.AspNetCore.SwaggerGen.SchemaGenerator());
@@ -22,7 +21,7 @@ namespace Weekly.API.Solace
 
         private static void GenerateFile(string url)
         {
-            
+
 
             NSwag.OpenApiDocument document = NSwag.OpenApiDocument.FromUrlAsync(url).Result;
             NSwag.CodeGeneration.CSharp.CSharpClientGeneratorSettings settings = new NSwag.CodeGeneration.CSharp.CSharpClientGeneratorSettings
@@ -32,13 +31,13 @@ namespace Weekly.API.Solace
                 GenerateResponseClasses = false
             };
 
-            var c = new NSwag.CodeGeneration.CSharp.CSharpClientGenerator(document, settings);
+            NSwag.CodeGeneration.CSharp.CSharpClientGenerator c = new NSwag.CodeGeneration.CSharp.CSharpClientGenerator(document, settings);
             string s = c.GenerateFile();
-            var cc = new TextCopy.Clipboard();
+            TextCopy.Clipboard cc = new TextCopy.Clipboard();
             cc.SetText(s);
         }
 
-      
+
     }
 
 }

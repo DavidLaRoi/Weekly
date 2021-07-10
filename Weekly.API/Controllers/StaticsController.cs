@@ -1,10 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Weekly.DB.Models;
 
 namespace Weekly.API.Controllers
@@ -13,7 +11,7 @@ namespace Weekly.API.Controllers
     [ApiController]
     public class StaticsController : ControllerBase
     {
-        private IServiceProvider provider;
+        private readonly IServiceProvider provider;
 
         public StaticsController(IServiceProvider provider)
         {
@@ -23,11 +21,11 @@ namespace Weekly.API.Controllers
         [HttpGet]
         public IEnumerable<Data.Priority> GetPriorities()
         {
-            var scope = provider.CreateScope();
-            var prov = scope.ServiceProvider;
-            var context = prov.GetRequiredService<WeeklyContext>();
+            IServiceScope scope = provider.CreateScope();
+            IServiceProvider prov = scope.ServiceProvider;
+            WeeklyContext context = prov.GetRequiredService<WeeklyContext>();
 
-            foreach(var prio in context.Priorities)
+            foreach (Priority prio in context.Priorities)
             {
                 yield return new Data.Priority()
                 {
@@ -42,18 +40,18 @@ namespace Weekly.API.Controllers
         [HttpPut]
         public void PutPriority(Data.Priority priority)
         {
-            var scope = provider.CreateScope();
-            var prov = scope.ServiceProvider;
-            var context = prov.GetRequiredService<WeeklyContext>();
+            IServiceScope scope = provider.CreateScope();
+            IServiceProvider prov = scope.ServiceProvider;
+            WeeklyContext context = prov.GetRequiredService<WeeklyContext>();
 
-            var existing = context.Priorities.Where((x) => x.Id == priority.ID).FirstOrDefault();
-            var target = existing ?? new Priority();
+            Priority existing = context.Priorities.Where((x) => x.Id == priority.ID).FirstOrDefault();
+            Priority target = existing ?? new Priority();
 
             target.Description = priority.Description;
             target.Name = priority.Name;
             target.IconUrl = priority.IconUrl;
 
-            if(existing is null)
+            if (existing is null)
             {
                 context.Priorities.Add(target);
             }
@@ -64,11 +62,11 @@ namespace Weekly.API.Controllers
         [HttpDelete]
         public void DeletePriority(Data.Priority priority)
         {
-            var scope = provider.CreateScope();
-            var prov = scope.ServiceProvider;
-            var context = prov.GetRequiredService<WeeklyContext>();
+            IServiceScope scope = provider.CreateScope();
+            IServiceProvider prov = scope.ServiceProvider;
+            WeeklyContext context = prov.GetRequiredService<WeeklyContext>();
 
-            if(context.Priorities.Select((x) => x.Id == priority.ID) is DB.Models.Priority prio)
+            if (context.Priorities.Select((x) => x.Id == priority.ID) is DB.Models.Priority prio)
             {
                 context.Priorities.Remove(prio);
             }
