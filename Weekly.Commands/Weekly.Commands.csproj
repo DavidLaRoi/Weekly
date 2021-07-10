@@ -10,4 +10,10 @@
     <ProjectReference Include="..\Weekly.DB\Weekly.DB.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="ConsoleAdapter.Standard">
+      <HintPath>..\..\ConsoleAdapter\ConsoleAdapter.Standard\bin\Release\netstandard2.0\ConsoleAdapter.Standard.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

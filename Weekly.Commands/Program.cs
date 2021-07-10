@@ -1,46 +1,33 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
+﻿using ConsoleAdapter;
 using System;
-using System.Linq;
-using Weekly.DB.Models;
 
 namespace Weekly.Commands
 {
-    class Program
+    public class Program : ConsoleAdapter.Commands
     {
-        private static readonly IServiceProvider Provider;
-        static Program()
+        private static void Main(string[] args)
         {
-            IServiceCollection serviceCollection = new ServiceCollection();
-
-            serviceCollection.AddTransient<IConnectionStringProvider, ConnectionStringProvider>();
-            serviceCollection.AddSingleton<IContextConfigurer, DefaultContextConfigurer>();
-            serviceCollection.AddScoped<WeeklyContext>();
-
-            Provider = serviceCollection.BuildServiceProvider();
+            if (args.Length > 0)
+            {
+                Call<Program>(args);
+            }
+            else
+            {
+                Run<Program>();
+            }
         }
 
-        private class ConnectionStringProvider : IConnectionStringProvider
+        [ConsoleVisible]
+        public void RunNSwag(string swaggerFile, string targetDir)
         {
-            public string GetConnectionString() => "Server=DESKTOP-V2N2JBV\\SQLEXPRESS;Database=Weekly;Trusted_Connection=True;";
+
         }
 
-        static void Main(string[] args)
+        [ConsoleVisible]
+        public async System.Threading.Tasks.Task Test(string message, int timeout)
         {
-            using var scope = Provider.CreateScope();
-            var provider = scope.ServiceProvider;
-
-            var context = provider.GetService<WeeklyContext>();
-
-            var items = context.Tasks.Include((x) => x.TaskHasTaskParentTasks).ToList();
-
-            var uber = items.Where((x) => x.Name.ToLower().Contains("uber")).FirstOrDefault();
-
-            var child = uber.Children.FirstOrDefault();
-
-            var result = context.VerifyChildTaskEntry(child, uber);
-            result = context.VerifyChildTaskEntry(child, child);
-            result = context.VerifyChildTaskEntry(uber, child);
+            Console.WriteLine(message);
+            await System.Threading.Tasks.Task.Delay(timeout);
         }
     }
 }

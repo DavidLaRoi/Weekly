@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Weekly.Commands": {
+      "commandName": "Project",
+      "commandLineArgs": "Test \"Hallo jij vieze bitch\" 5000"
+    }
+  }
+}

@@ -15,4 +15,18 @@
     <ProjectReference Include="..\Weekly.DB\Weekly.DB.csproj" />
   </ItemGroup>
 
+  <!--<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="dotnet swagger tofile -\\-output .\openapi.json $(OutputPath)$(AssemblyName).dll v1" />
+  </Target>-->
+
+	<Target Name="SwaggerGen" AfterTargets="AfterBuild" Condition="'$(TF_BUILD)'!='True'">
+		<Exec Command="dotnet swagger tofile --output .\openapi.json $(MSBuildProjectDirectory)$(OutputPath)$(AssemblyName).dll v1 " />
+		<!--<Exec ConsoleToMSBuild="true" ContinueOnError="true" Command="$(NSwagExe_Net50) run nswag.json /variables:CSharpOutputPath=..\Logic4.Marketing.Client">
+			<Output TaskParameter="ExitCode" PropertyName="NSwagExitCode" />
+			<Output TaskParameter="ConsoleOutput" PropertyName="NSwagOutput" />
+		</Exec>-->
+		<Message Text="$(NSwagOutput)" Condition="'$(NSwagExitCode)' == '0'" Importance="low" />
+		<!--<Error Text="$(NSwagOutput)" Condition="'$(NSwagExitCode)' != '0'"/>-->
+	</Target>
+	
 </Project>
