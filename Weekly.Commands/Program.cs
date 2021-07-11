@@ -17,6 +17,11 @@ namespace Weekly.Commands
             }
         }
 
+        public void CreateOpenApi()
+        {
+
+        }
+
         [ConsoleVisible]
         public void RunNSwag(string swaggerFile, string targetDir)
         {

@@ -13,10 +13,7 @@ namespace Weekly.API.Solace
 
         private static void GenerateOpenApi()
         {
-            Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator g = new Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator(new Swashbuckle.AspNetCore.SwaggerGen.SwaggerGeneratorOptions
-            {
 
-            }, new poop(), new Swashbuckle.AspNetCore.SwaggerGen.SchemaGenerator());
         }
 
         private static void GenerateFile(string url)
