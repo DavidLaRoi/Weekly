@@ -5,10 +5,8 @@ using System.Collections.Generic;
 
 namespace Weekly.DB.Models
 {
-    public partial class Group
+    public partial class ActivtyActivity
     {
         public Guid Id { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
     }
 }

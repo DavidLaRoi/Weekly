@@ -61,6 +61,15 @@ namespace Weekly.DB.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to dotnet ef dbcontext scaffold &quot;Server=DESKTOP-V2N2JBV\SQLEXPRESS;Database=Weekly;Trusted_Connection=True;&quot; Microsoft.EntityFrameworkCore.SqlServer -o Models --project C:\Users\DavidLaRoiLogic4\Repos\Weekly\Weekly.DB\Weekly.DB.csproj -f -c &quot;WeeklyContextBase&quot; --no-onconfiguring.
+        /// </summary>
+        internal static string fro_mcommandline {
+            get {
+                return ResourceManager.GetString("fro mcommandline", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Scaffold-DbContext &quot;Server=DESKTOP-V2N2JBV\SQLEXPRESS;Database=Weekly;Trusted_Connection=True;&quot; &quot;Microsoft.EntityFrameworkCore.SqlServer&quot; -OutputDir &quot;Models&quot; -Context &quot;WeeklyContextBase&quot; -Force.
         /// </summary>
         internal static string Scaffold_string {
