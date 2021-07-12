@@ -2,20 +2,24 @@
 
 namespace Weekly.Data
 {
-    public class DataItem
+    public class Dto
     {
         public override bool Equals(object obj)
         {
-            return obj is DataItem other && other.ID == ID;
+            return obj is Dto other && other.Id == Id;
         }
 
         public override int GetHashCode()
         {
-            return ID.GetHashCode();
+            return Id.GetHashCode();
         }
 
-        public Guid? ID { get; set; }
+        public Guid? Id { get; set; }
 
+    }
+
+    public class UserDto : Dto
+    {
         public string Name { get; set; }
 
         public string Description { get; set; }

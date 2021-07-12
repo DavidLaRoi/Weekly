@@ -13,7 +13,7 @@ namespace Weekly.DB.Models
             TaskTaskParentTasks = new HashSet<TaskTask>();
         }
 
-        public Guid Id { get; set; }
+        //public new Guid Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public TimeSpan? Duration { get; set; }

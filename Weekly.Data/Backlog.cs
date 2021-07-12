@@ -2,7 +2,7 @@
 
 namespace Weekly.Data
 {
-    public class Backlog : DataItem
+    public class Backlog : UserDto
     {
         public Group Group { get; set; }
 

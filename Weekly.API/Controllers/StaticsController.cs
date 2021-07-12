@@ -31,7 +31,7 @@ namespace Weekly.API.Controllers
                 {
                     Description = prio.Description,
                     Name = prio.Name,
-                    ID = prio.Id
+                    Id = prio.Id
                 };
             }
         }
@@ -43,7 +43,7 @@ namespace Weekly.API.Controllers
             IServiceProvider prov = scope.ServiceProvider;
             WeeklyContext context = prov.GetRequiredService<WeeklyContext>();
 
-            Priority existing = context.Priorities.Where((x) => x.Id == priority.ID).FirstOrDefault();
+            Priority existing = context.Priorities.Where((x) => x.Id == priority.Id).FirstOrDefault();
             Priority target = existing ?? new Priority();
 
             target.Description = priority.Description;
@@ -64,7 +64,7 @@ namespace Weekly.API.Controllers
             IServiceProvider prov = scope.ServiceProvider;
             WeeklyContext context = prov.GetRequiredService<WeeklyContext>();
 
-            if (context.Priorities.Select((x) => x.Id == priority.ID) is DB.Models.Priority prio)
+            if (context.Priorities.Select((x) => x.Id == priority.Id) is DB.Models.Priority prio)
             {
                 context.Priorities.Remove(prio);
             }

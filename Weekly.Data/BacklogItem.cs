@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Weekly.Data
 {
-    public class BacklogItem : DataItem
+    public class BacklogItem : UserDto
     {
         public DateTime? Completed { get; set; }
 

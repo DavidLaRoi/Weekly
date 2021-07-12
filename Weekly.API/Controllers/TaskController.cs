@@ -28,7 +28,7 @@ namespace Weekly.API.Controllers
 
             var t = context.Tasks.Find(guid);
             if (t is null) return null;
-            return new Data.Task() { ID = t.Id, Description = t.Description, Name = t.Name, Duration = t.Duration };
+            return new Data.Task() { Id = t.Id, Description = t.Description, Name = t.Name, Duration = t.Duration };
         }
 
         //[HttpGet]
