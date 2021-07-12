@@ -17,7 +17,9 @@ namespace Weekly.DB.Models
         public string Name { get; set; }
         public string Description { get; set; }
         public TimeSpan? Duration { get; set; }
+        public Guid? GroupId { get; set; }
 
+        public virtual Group Group { get; set; }
         public virtual ICollection<TaskTask> TaskTaskChildTasks { get; set; }
         public virtual ICollection<TaskTask> TaskTaskParentTasks { get; set; }
     }

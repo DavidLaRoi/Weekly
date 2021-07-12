@@ -175,9 +175,16 @@ namespace Weekly.DB.Models
                     .HasColumnName("ID")
                     .HasDefaultValueSql("(newid())");
 
+                entity.Property(e => e.GroupId).HasColumnName("Group_ID");
+
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(50);
+
+                entity.HasOne(d => d.Group)
+                    .WithMany(p => p.Tasks)
+                    .HasForeignKey(d => d.GroupId)
+                    .HasConstraintName("FK_Task_Group");
             });
 
             modelBuilder.Entity<TaskCte>(entity =>
