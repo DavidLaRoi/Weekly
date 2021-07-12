@@ -31,8 +31,7 @@ namespace Weekly.API.Controllers
                 {
                     Description = prio.Description,
                     Name = prio.Name,
-                    ID = prio.Id,
-                    IconUrl = prio.IconUrl
+                    ID = prio.Id
                 };
             }
         }
@@ -49,7 +48,6 @@ namespace Weekly.API.Controllers
 
             target.Description = priority.Description;
             target.Name = priority.Name;
-            target.IconUrl = priority.IconUrl;
 
             if (existing is null)
             {

@@ -1,12 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.OpenApi" Version="1.2.3" />
     <PackageReference Include="NSwag.AspNetCore" Version="13.11.3" />
     <PackageReference Include="NSwag.Core" Version="13.11.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.1.4" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.1.4" />
   </ItemGroup>
 
   <ItemGroup>
@@ -15,18 +18,12 @@
     <ProjectReference Include="..\Weekly.DB\Weekly.DB.csproj" />
   </ItemGroup>
 
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="swagger tofile --output .\openapi.json $(OutputPath)$(AssemblyName).dll v1" />
+  </Target>
+
   <!--<Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Exec Command="dotnet swagger tofile -\\-output .\openapi.json $(OutputPath)$(AssemblyName).dll v1" />
   </Target>-->
-
-	<Target Name="SwaggerGen" AfterTargets="AfterBuild" Condition="'$(TF_BUILD)'!='True'">
-		<Exec Command="dotnet swagger tofile --output .\openapi.json $(MSBuildProjectDirectory)$(OutputPath)$(AssemblyName).dll v1 " />
-		<!--<Exec ConsoleToMSBuild="true" ContinueOnError="true" Command="$(NSwagExe_Net50) run nswag.json /variables:CSharpOutputPath=..\Logic4.Marketing.Client">
-			<Output TaskParameter="ExitCode" PropertyName="NSwagExitCode" />
-			<Output TaskParameter="ConsoleOutput" PropertyName="NSwagOutput" />
-		</Exec>-->
-		<Message Text="$(NSwagOutput)" Condition="'$(NSwagExitCode)' == '0'" Importance="low" />
-		<!--<Error Text="$(NSwagOutput)" Condition="'$(NSwagExitCode)' != '0'"/>-->
-	</Target>
 	
 </Project>

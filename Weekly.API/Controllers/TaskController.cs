@@ -20,45 +20,58 @@ namespace Weekly.API.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Weekly.Data.Task> GetTasks(Guid? groupID = null)
+        public Weekly.Data.Task GetTask(Guid guid)
         {
-            using IServiceScope scope = provider.CreateScope();
+            IServiceScope scope = provider.CreateScope();
             IServiceProvider prov = scope.ServiceProvider;
             using Models.WeeklyContext context = prov.GetRequiredService<Weekly.DB.Models.WeeklyContext>();
 
-            IQueryable<Models.Task> tasks = context.Tasks.Include((x) => x.Group);
-
-            if (groupID.HasValue)
-            {
-                tasks = tasks.Where((x) => x.GroupId == groupID);
-            }
-
-            foreach (Models.Task dbTask in tasks)
-            {
-                yield return new Data.Task()
-                {
-                    ID = dbTask.Id,
-                    Name = dbTask.Name,
-                    Description = dbTask.Description,
-                    Group = new Data.Group() { ID = dbTask.Group.Id, Name = dbTask.Group.Name },
-                };
-            }
+            var t = context.Tasks.Find(guid);
+            if (t is null) return null;
+            return new Data.Task() { ID = t.Id, Description = t.Description, Name = t.Name, Duration = t.Duration };
         }
 
-        [HttpGet("GetChilds")]
-        public List<Data.Task> GetChildTasks(Guid taskId)
-        {
-            using IServiceScope scope = provider.CreateScope();
-            IServiceProvider prov = scope.ServiceProvider;
-            using Models.WeeklyContext context = prov.GetRequiredService<DB.Models.WeeklyContext>();
+        //[HttpGet]
+        //public async IEnumerable<Weekly.Data.Task> GetTasks(Guid? groupID = null)
+        //{
+        //    //using IServiceScope scope = provider.CreateScope();
+        //    //IServiceProvider prov = scope.ServiceProvider;
+        //    //using Models.WeeklyContext context = prov.GetRequiredService<Weekly.DB.Models.WeeklyContext>();
 
-            var subt = (from cte in context.TaskCtes
-                        join task in context.Tasks.Include((x) => x.Group)
-                        on cte.ChildId equals task.Id
-                        where cte.RootId == taskId
-                        select new { cte, task }).ToList();
+        //    //IQueryable<Models.Task> tasks = context.Tasks.Include((x) => x.);
 
-            throw new NotImplementedException();
-        }
+        //    //if (groupID.HasValue)
+        //    //{
+        //    //    tasks = tasks.Where((x) => x.GroupId == groupID);
+        //    //}
+
+        //    //foreach (Models.Task dbTask in tasks)
+        //    //{
+        //    //    yield return new Data.Task()
+        //    //    {
+        //    //        ID = dbTask.Id,
+        //    //        Name = dbTask.Name,
+        //    //        Description = dbTask.Description,
+        //    //        Group = new Data.Group() { ID = dbTask.Group.Id, Name = dbTask.Group.Name },
+        //    //    };
+        //    //}
+        //    return null;
+        //}
+
+        //[HttpGet("GetChilds")]
+        //public List<Data.Task> GetChildTasks(Guid taskId)
+        //{
+        //    using IServiceScope scope = provider.CreateScope();
+        //    IServiceProvider prov = scope.ServiceProvider;
+        //    using Models.WeeklyContext context = prov.GetRequiredService<DB.Models.WeeklyContext>();
+
+        //    var subt = (from cte in context.TaskCtes
+        //                join task in context.Tasks.Include((x) => x.Group)
+        //                on cte.ChildId equals task.Id
+        //                where cte.RootId == taskId
+        //                select new { cte, task }).ToList();
+
+        //    throw new NotImplementedException();
+        //}
     }
 }

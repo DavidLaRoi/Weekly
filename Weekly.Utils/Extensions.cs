@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace Weekly.Utils
 {
@@ -25,6 +26,20 @@ namespace Weekly.Utils
                 action?.Invoke();
                 action = null;
             }
+        }
+
+        /// <summary>
+        /// Initializes a 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="serviceProvider"></param>
+        /// <returns></returns>
+        [Obsolete("messy")]
+        public static T AutoWire<T> (this IServiceProvider serviceProvider)
+        {
+            var constr = typeof(T).GetConstructors().Single();
+            var ps = constr.GetParameters().Select((x) => serviceProvider.GetService(x.ParameterType) ?? throw new Exception()).ToArray();
+            return (T)constr.Invoke(ps);
         }
     }
 }
