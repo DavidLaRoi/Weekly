@@ -1,9 +1,14 @@
 ﻿using ConsoleAdapter;
 using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Reflection.Emit;
+using System.Threading.Tasks;
+using Weekly.Utils;
 
 namespace Weekly.Commands
 {
-    public class Program : ConsoleAdapter.Commands
+    public partial class Program : ConsoleAdapter.Commands
     {
         private static void Main(string[] args)
         {
@@ -15,6 +20,23 @@ namespace Weekly.Commands
             {
                 Run<Program>();
             }
+        }
+
+        private readonly IAsyncLock lck = new AsyncLock();
+
+        [ConsoleVisible]
+        public async Task TestAsyncAwaitable()
+        {
+            async Task Stuff(string value)
+            {
+                using (await lck.LockAsync())
+                {
+                    Console.WriteLine($"Enter:{value}:{DateTime.Now}");
+                    await Task.Delay(2000);
+                    Console.WriteLine($"Exit:{value}:{DateTime.Now}");
+                }
+            }
+            await Task.WhenAll(Stuff("uno"), Stuff("dos"), Stuff("tre"));
         }
 
         public void CreateOpenApi()
@@ -33,6 +55,188 @@ namespace Weekly.Commands
         {
             Console.WriteLine(message);
             await System.Threading.Tasks.Task.Delay(timeout);
+        }
+
+        private static void BuildMapper<Tx, Ty>(Tx tx, Ty ty)
+        {
+            AppDomain myDomain = AppDomain.CurrentDomain;
+            AssemblyName asmName = new AssemblyName()
+            {
+                Name = "DynamicMappers"
+            };
+            AssemblyBuilder builder = AssemblyBuilder.DefineDynamicAssembly(asmName, AssemblyBuilderAccess.RunAndCollect);
+            ModuleBuilder moduleBuilder = builder.DefineDynamicModule("DynamicMapers");
+            TypeBuilder typeBuilder = moduleBuilder.DefineType("Mappers", TypeAttributes.Public);
+
+            MethodBuilder methodBuilder = typeBuilder.DefineMethod(
+                "MapXToY_123",
+                MethodAttributes.Static | MethodAttributes.Public,
+                typeof(void),
+                new Type[] { typeof(Tx), typeof(Ty) });
+
+            ParameterBuilder paramX = methodBuilder.DefineParameter(1, ParameterAttributes.None, "x");
+            ParameterBuilder paramY = methodBuilder.DefineParameter(2, ParameterAttributes.None, "y");
+
+            ILGenerator ILGenerator = methodBuilder.GetILGenerator();
+
+            ILGenerator.Emit(OpCodes.Nop);
+
+            ILGenerator.Emit(OpCodes.Ldarg_0);
+            ILGenerator.Emit(OpCodes.Ldarg_1);
+            ILGenerator.Emit(OpCodes.Callvirt, typeof(Tx).GetProperty("Name").GetMethod);
+            ILGenerator.Emit(OpCodes.Callvirt, typeof(Ty).GetProperty("Name").SetMethod);
+
+            ILGenerator.Emit(OpCodes.Nop);
+
+            ILGenerator.Emit(OpCodes.Ldarg_0);
+            ILGenerator.Emit(OpCodes.Ldarg_1);
+            ILGenerator.Emit(OpCodes.Callvirt, typeof(Tx).GetProperty("Value").GetMethod);
+            ILGenerator.Emit(OpCodes.Callvirt, typeof(Ty).GetProperty("Value").SetMethod);
+
+            ILGenerator.Emit(OpCodes.Nop);
+            ILGenerator.Emit(OpCodes.Ret);
+
+            Type myType = typeBuilder.CreateType();
+            myType.InvokeMember("MapXToY_123", BindingFlags.InvokeMethod | BindingFlags.Public | BindingFlags.Static, null
+                , null, new object[] { tx, ty });
+
+
+        }
+
+        private Type ConstructAutoMapper<T1, T2>(bool includeNoop = true)
+        {
+            return ConstructAutoMapper(typeof(T1), typeof(T2), includeNoop);
+        }
+
+        private static IEnumerable<(PropertyInfo sourceProp, PropertyInfo targetProp)> GetMatching(Type source, Type target)
+        {
+            foreach (PropertyInfo sourceProp in source.GetProperties(BindingFlags.Public | BindingFlags.Instance))
+            {
+                PropertyInfo targetProp = target.GetProperty(sourceProp.Name, BindingFlags.Public | BindingFlags.Instance);
+                if (targetProp is PropertyInfo &&
+                    targetProp.CanRead &&
+                    targetProp.CanWrite &&
+                    targetProp.PropertyType.IsAssignableFrom(sourceProp.PropertyType))
+                {
+                    yield return (sourceProp, targetProp);
+                }
+            }
+        }
+
+
+        private Type ConstructAutoMapper(Type source, Type target, bool emitNoop = true)
+        {
+            AppDomain myDomain = AppDomain.CurrentDomain;
+            AssemblyName asmName = new AssemblyName()
+            {
+                Name = "DynamicMappers"
+            };
+            AssemblyBuilder assemblyBuilder = AssemblyBuilder.DefineDynamicAssembly(asmName, AssemblyBuilderAccess.RunAndCollect);
+            ModuleBuilder moduleBuilder = assemblyBuilder.DefineDynamicModule("DynamicMapers");
+
+            Type mapperInterface = typeof(IMapper<,>);
+            mapperInterface = mapperInterface.MakeGenericType(source, target);
+
+            TypeBuilder typeBuilder = moduleBuilder.DefineType("Mappers", TypeAttributes.Public, typeof(object), new Type[] { mapperInterface });
+
+            typeBuilder.DefineDefaultConstructor(MethodAttributes.Public);
+
+            MethodBuilder methodBuilder = typeBuilder.DefineMethod(
+                nameof(IMapper<int, int>.Map),
+                MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.Virtual | MethodAttributes.Final | MethodAttributes.NewSlot,
+                typeof(void),
+                new Type[] { source, target });
+
+
+
+            ILGenerator ilbuilder = methodBuilder.GetILGenerator();
+
+            foreach ((PropertyInfo sourceProp, PropertyInfo targetProp) in GetMatching(source, target))
+            {
+                if (emitNoop)
+                {
+                    ilbuilder.Emit(OpCodes.Nop);
+                }
+
+                ilbuilder.Emit(OpCodes.Ldarg_2);
+                ilbuilder.Emit(OpCodes.Ldarg_1);
+                ilbuilder.Emit(OpCodes.Callvirt, sourceProp.GetMethod);
+                ilbuilder.Emit(OpCodes.Callvirt, sourceProp.SetMethod);
+            }
+
+            if (emitNoop)
+            {
+                ilbuilder.Emit(OpCodes.Nop);
+            }
+
+            ilbuilder.Emit(OpCodes.Ret);
+
+            return typeBuilder.CreateType();
+        }
+
+        [ConsoleVisible]
+        public void Test2()
+        {
+            ObjA a = new ObjA
+            {
+                Name = "poop",
+                Value = 12
+
+            };
+            ObjB b = new ObjB();
+            //BuildMapper(b, a);
+
+            //XToY(new ObjA(), new ObjB());
+
+            Type autoMapper = ConstructAutoMapper<ObjA, ObjB>(false);
+            IMapper<ObjA, ObjB> mapper = (IMapper<ObjA, ObjB>)Activator.CreateInstance(autoMapper);
+            mapper.Map(a, b);
+        }
+
+        public class SymMapper
+            : IMapper<ObjA, ObjB>
+        {
+            public void Map(ObjA source, ObjB target)
+            {
+                target.Name = source.Name;
+                target.Value = source.Value;
+            }
+
+            public void Map2(ObjA source, ObjB target)
+            {
+                target.Name = source.Name;
+                target.Value = source.Value;
+            }
+        }
+
+        public class SymMapper2
+            : IMapper<ObjA, ObjB>
+        {
+            void IMapper<ObjA, ObjB>.Map(ObjA source, ObjB target)
+            {
+                target.Name = source.Name;
+                target.Value = source.Value;
+            }
+        }
+
+        public static void XToY(ObjA objA, ObjB objB)
+        {
+            objA.Name = objB.Name;
+            objA.Value = objB.Value;
+        }
+
+        public class ObjA
+        {
+            public string Name { get; set; }
+
+            public int Value { get; set; }
+        }
+
+        public class ObjB
+        {
+            public string Name { get; set; }
+
+            public int Value { get; set; }
         }
     }
 }

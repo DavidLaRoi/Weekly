@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MediatR" Version="9.0.0" />
     <PackageReference Include="Microsoft.OpenApi" Version="1.2.3" />
     <PackageReference Include="NSwag.AspNetCore" Version="13.11.3" />
     <PackageReference Include="NSwag.Core" Version="13.11.3" />
@@ -18,9 +19,10 @@
     <ProjectReference Include="..\Weekly.DB\Weekly.DB.csproj" />
   </ItemGroup>
 
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="swagger tofile --output .\openapi.json $(OutputPath)$(AssemblyName).dll v1" />
-  </Target>
+  <ItemGroup>
+    <Folder Include="Application\Commands\" />
+    <Folder Include="Application\Queries\" />
+  </ItemGroup>
 
   <!--<Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Exec Command="dotnet swagger tofile -\\-output .\openapi.json $(OutputPath)$(AssemblyName).dll v1" />

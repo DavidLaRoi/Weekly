@@ -29,6 +29,9 @@ namespace Weekly.API
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Logic4.Marketing.API", Version = "v1" });
             });
+
+            var tSearcher = new DI.TypeSearcher();
+            tSearcher.ConfigureServices(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

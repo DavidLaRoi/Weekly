@@ -1,16 +1,18 @@
 ﻿using System;
+using Weekly.API.DI;
 
-namespace Weekly.API.Services
+namespace Weekly.API.Mappers
 {
     [Obsolete("Create specific mappers instead")]
-    public class PoopyMapper<TDto, TEntity> : IMapper<TDto, TEntity>
+    [DontAutoMap]
+    public class PoopyMapper<TEntity, TDto> : IMapper<TEntity, TDto>
     {
         public MapToDtoDelegate MapToDto { get; set; }
 
         public MapToEntityDelegate MapToEntity { get; set; }
 
-        void IMapper<TDto, TEntity>.MapToDto(TEntity entity, TDto dto) => MapToDto(entity, dto);
-        void IMapper<TDto, TEntity>.MapToEntity(TDto dto, TEntity entity) => MapToEntity(dto, entity);
+        void IMapper<TEntity, TDto>.MapToDto(TEntity entity, TDto dto) => MapToDto(entity, dto);
+        void IMapper<TEntity, TDto>.MapToEntity(TDto dto, TEntity entity) => MapToEntity(dto, entity);
 
         public delegate void MapToDtoDelegate(TEntity entity, TDto dto);
 

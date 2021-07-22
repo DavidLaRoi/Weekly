@@ -77,6 +77,11 @@ namespace Weekly.API.Solace
 
         }
 
+        private class CSharpClientGeneratorSettings : NSwag.CodeGeneration.CSharp.CSharpClientGeneratorSettings
+        {
+            public CSharpClientGeneratorSettings Clone() => (CSharpClientGeneratorSettings)MemberwiseClone();
+        }
+
         [ConsoleAdapter.ConsoleVisible]
         public async Task GenerateFile(string url)
         {
@@ -85,13 +90,20 @@ namespace Weekly.API.Solace
             NameSpaceBuilder builder = new NameSpaceBuilder()
                 .AddType<Data.Task>(true);
 
-            NSwag.CodeGeneration.CSharp.CSharpClientGeneratorSettings settings = new NSwag.CodeGeneration.CSharp.CSharpClientGeneratorSettings
+            CSharpClientGeneratorSettings settings = new CSharpClientGeneratorSettings
             {
-                GenerateClientInterfaces = true,
+                GenerateClientInterfaces = false,
+                GenerateClientClasses = false,
                 GenerateDtoTypes = false,
                 GenerateResponseClasses = false,
                 AdditionalNamespaceUsages = builder.ToArray()
             };
+
+            var clientSettings = settings.Clone();
+            clientSettings.GenerateClientClasses = true;
+
+            var interfaceSettings = settings.Clone();
+            interfaceSettings.GenerateClientInterfaces = true;
 
             NSwag.CodeGeneration.CSharp.CSharpClientGenerator c = new NSwag.CodeGeneration.CSharp.CSharpClientGenerator(document, settings);
             string s = c.GenerateFile();

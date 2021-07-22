@@ -12,11 +12,32 @@ namespace Weekly.Utils
             return new DoAtDisposeCls(action);
         }
 
+        public static IDisposable DoAtDispose<T>(Func<T> action)
+        {
+            return new DoAtDisposeCls2<T>(action);
+        }
+
         private class DoAtDisposeCls : IDisposable
         {
             private Action action;
 
             public DoAtDisposeCls(Action action)
+            {
+                this.action = action;
+            }
+
+            public void Dispose()
+            {
+                action?.Invoke();
+                action = null;
+            }
+        }
+
+        private class DoAtDisposeCls2<T> : IDisposable
+        {
+            private Func<T> action;
+
+            public DoAtDisposeCls2(Func<T> action)
             {
                 this.action = action;
             }

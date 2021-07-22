@@ -1,6 +1,6 @@
-﻿namespace Weekly.API.Services
+﻿namespace Weekly.API.Mappers
 {
-    public interface IMapper<TDto, TEntity>
+    public interface IMapper<TEntity, TDto>
     {
         void MapToEntity(TDto dto, TEntity entity);
 
