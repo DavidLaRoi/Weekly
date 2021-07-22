@@ -2,7 +2,7 @@
 using System.Linq.Expressions;
 using System.Reflection.Emit;
 
-namespace Weekly.Commands
+namespace Weekly.Mappers
 {
 
     public class ObjectMapperBuilder<TSource, TTarget> : ObjectMapperBuilder
