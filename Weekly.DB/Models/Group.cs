@@ -5,16 +5,12 @@ using System.Collections.Generic;
 
 namespace Weekly.DB.Models
 {
-    public partial class Group
+    public partial class Group : UserEntity
     {
         public Group()
         {
             Tasks = new HashSet<Task>();
         }
-
-        public Guid Id { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
 
         public virtual ICollection<Task> Tasks { get; set; }
     }

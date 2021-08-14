@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Console = System.Console;
 
 namespace Weekly.API.Solace
 {
@@ -18,9 +19,16 @@ namespace Weekly.API.Solace
 
         }
 
+
         private class NameSpaceBuilder
         {
             private readonly List<Type> list = new List<Type>();
+
+
+            private static string TypeName(Type type)
+            {
+                return type.Name.Split('`').First();
+            }
 
             public NameSpaceBuilder()
             {
@@ -32,15 +40,20 @@ namespace Weekly.API.Solace
                 list.AddRange(types);
             }
 
-            public NameSpaceBuilder AddType<T>(bool addList = false)
+            public NameSpaceBuilder AddType(Type type, bool addList = false)
             {
-                list.Add((typeof(T)));
+                list.Add(type);
                 if (addList)
                 {
-                    list.Add(typeof(List<T>));
+                    list.Add(typeof(List<>).MakeGenericType(type));
                 }
 
                 return this;
+            }
+
+            public NameSpaceBuilder AddType<T>(bool addList = false)
+            {
+                return this.AddType(typeof(T), addList); 
             }
 
             private static string PredictSwaggerName(Type type)
@@ -83,12 +96,12 @@ namespace Weekly.API.Solace
         }
 
         [ConsoleAdapter.ConsoleVisible]
-        public async Task GenerateFile(string url)
+        public async Task GenerateFile(string fileName)
         {
-            NSwag.OpenApiDocument document = await NSwag.OpenApiDocument.FromFileAsync(url);
+            NSwag.OpenApiDocument document = await NSwag.OpenApiDocument.FromFileAsync(fileName);
 
             NameSpaceBuilder builder = new NameSpaceBuilder()
-                .AddType<Data.Task>(true);
+                .AddType<Data.Dtos.Task>(true);
 
             CSharpClientGeneratorSettings settings = new CSharpClientGeneratorSettings
             {

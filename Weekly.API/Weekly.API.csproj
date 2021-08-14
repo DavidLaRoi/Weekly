@@ -5,27 +5,38 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="AutoMapper.Collection" Version="7.0.1" />
+    <PackageReference Include="AutoMapper.EF6" Version="2.1.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
     <PackageReference Include="MediatR" Version="9.0.0" />
+    <PackageReference Include="MediatR.Extensions.Autofac.DependencyInjection" Version="7.3.0" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
     <PackageReference Include="Microsoft.OpenApi" Version="1.2.3" />
-    <PackageReference Include="NSwag.AspNetCore" Version="13.11.3" />
-    <PackageReference Include="NSwag.Core" Version="13.11.3" />
-    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.1.4" />
-    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.1.4" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.1.5" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Weekly.API.Interfaces\Weekly.API.Interfaces.csproj" />
     <ProjectReference Include="..\Weekly.Data\Weekly.Data.csproj" />
     <ProjectReference Include="..\Weekly.DB\Weekly.DB.csproj" />
+    <ProjectReference Include="..\Weekly.Utils.Core\Weekly.Utils.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Application\Commands\" />
-    <Folder Include="Application\Queries\" />
+    <Folder Include="Requests\" />
   </ItemGroup>
 
-  <!--<Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="dotnet swagger tofile -\\-output .\openapi.json $(OutputPath)$(AssemblyName).dll v1" />
-  </Target>-->
+  <ItemGroup>
+    <Content Update="openapi.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="dotnet swagger tofile --output openapi.json $(OutputPath)$(AssemblyName).dll v1" />
+  </Target>
+
 	
 </Project>

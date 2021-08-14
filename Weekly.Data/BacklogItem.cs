@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Weekly.Data
+namespace Weekly.Data.Dtos
 {
     public class BacklogItem : UserDto
     {

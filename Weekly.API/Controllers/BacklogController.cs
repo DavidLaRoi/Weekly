@@ -7,8 +7,8 @@ namespace Weekly.API.Controllers
     [ApiController]
     public class BacklogController : ControllerBase
     {
-        [HttpGet]
-        public IEnumerable<Data.Backlog> GetBacklogs()
+        [HttpGet(nameof(GetBacklogs))]
+        public IEnumerable<Data.Dtos.Backlog> GetBacklogs()
         {
             yield break;
         }

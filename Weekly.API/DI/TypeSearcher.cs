@@ -2,28 +2,27 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Reflection;
 
 namespace Weekly.API.DI
 {
     public partial class TypeSearcher
     {
-        private IEnumerable<ITypeFilter> typeFilters1;
+        private readonly IEnumerable<ITypeFilter> typeFilters1;
 
         public TypeSearcher()
         {
-            var filters = new List<ITypeFilter>();
+            List<ITypeFilter> filters = new List<ITypeFilter>();
             AddFilters(filters);
             typeFilters1 = filters;
         }
 
         public void ConfigureServices(IServiceCollection serviceCollection)
         {
-            var assy = typeof(TypeSearcher).Assembly;
-            foreach(var type in assy.GetTypes())
+            Assembly assy = typeof(TypeSearcher).Assembly;
+            foreach (Type type in assy.GetTypes())
             {
-                var _ = typeFilters1.FirstOrDefault((x) => x.RegisterService(type,serviceCollection));
+                ITypeFilter _ = typeFilters1.FirstOrDefault((x) => x.RegisterService(type, serviceCollection));
             }
         }
 

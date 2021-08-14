@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Weekly.Utils
 {
@@ -14,7 +15,7 @@ namespace Weekly.Utils
 
         public static IDisposable DoAtDispose<T>(Func<T> action)
         {
-            return new DoAtDisposeCls2<T>(action);
+            return new DoAtDisposeCls(() => action());
         }
 
         private class DoAtDisposeCls : IDisposable
@@ -33,20 +34,37 @@ namespace Weekly.Utils
             }
         }
 
-        private class DoAtDisposeCls2<T> : IDisposable
+        private class DoAtDisposeAsyncCls : IAsyncDisposable
         {
-            private Func<T> action;
+            private Func<Task> func;
+            private readonly object lockObj = new object();
 
-            public DoAtDisposeCls2(Func<T> action)
+            public DoAtDisposeAsyncCls(Func<Task> func)
             {
-                this.action = action;
+                this.func = func;
             }
 
-            public void Dispose()
+            public ValueTask DisposeAsync()
             {
-                action?.Invoke();
-                action = null;
+                lock (this)
+                {
+                    if (func != null)
+                    {
+                        var task = func.Invoke();
+                        func = null;
+                        return new ValueTask(task);
+                    }
+                    else
+                    {
+                        return new ValueTask(Task.CompletedTask);
+                    }
+                }
             }
+        }
+
+        public static IAsyncDisposable DoAtDisposeAsync(Func<Task> func)
+        {
+            return new DoAtDisposeAsyncCls(func);
         }
 
         /// <summary>

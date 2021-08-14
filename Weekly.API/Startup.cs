@@ -1,9 +1,10 @@
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.OpenApi.Models;
+using Weekly.API.DI;
 using Weekly.DB.Models;
 
 namespace Weekly.API
@@ -20,19 +21,28 @@ namespace Weekly.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMvc();
+
             services.AddControllers();
             services.AddDbContext<WeeklyContext>();
+            services.AddDbSets<WeeklyContext>();
+
             services.AddSingleton<IContextConfigurer, DefaultContextConfigurer>();
             services.AddSingleton<IConnectionStringProvider, DefaultConnectionStringProvider>();
 
-            services.AddSwaggerGen(c =>
+            services.AddAutoMapper(x =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Logic4.Marketing.API", Version = "v1" });
+                x.CreateMap(typeof(Data.Dtos.Group), typeof(DB.Models.Group)).ReverseMap();
             });
-
-            var tSearcher = new DI.TypeSearcher();
+            TypeSearcher tSearcher = new DI.TypeSearcher();
             tSearcher.ConfigureServices(services);
+
+            services.AddMediatR(typeof(Startup));
+
+            services.AddSwaggerGen();
         }
+
+
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -42,12 +52,19 @@ namespace Weekly.API
                 app.UseDeveloperExceptionPage();
             }
 
+            // Enable middleware to serve generated Swagger as a JSON endpoint.
+            app.UseSwagger();
+
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
+            // specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });
+
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
-            app.UseOpenApi();
-            app.UseSwaggerUi3();
 
             app.UseAuthorization();
 

@@ -1,6 +1,9 @@
 ﻿using ConsoleAdapter;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Threading.Tasks;
@@ -20,6 +23,58 @@ namespace Weekly.Commands
             {
                 Run<Program>();
             }
+        }
+
+        public string A { get; set; } = "not poo";
+        public string B { get; set; }
+        public string C { get; set; }
+        public string D { get; set; }
+
+        [ConsoleVisible]
+        public void Visit()
+        {
+            string argument = "poo";
+            Expression<Func<Program, string, bool>> parammedPredicate = null;
+
+
+            Expression<Func<Program, bool>> exp = x => x.A.ToLower().Contains(argument)
+            || x.B.ToLower().Contains(argument)
+            || x.C.ToLower().Contains(argument)
+            || x.D.ToLower().Contains(argument);
+
+            var tolower = typeof(string).GetMethod(nameof(string.ToLower), new Type[] { });
+            var contains = typeof(string).GetMethod(nameof(string.Contains), new Type[] { typeof(string) });
+
+
+           
+            MethodCallExpression containsExpression(ParameterExpression parameter, ConstantExpression mustContain, PropertyInfo propertyInfo)
+            {
+                var propget = Expression.Property(parameter, propertyInfo);
+                var lwr = Expression.Call(propget, tolower);
+                var cnts = Expression.Call(lwr, contains, mustContain);
+                return cnts;
+            }
+
+            Expression ors(params Expression[] expressions)
+            {
+                Expression binary = expressions.First();
+                foreach(var expression in expressions.Skip(1))
+                {
+                    binary = Expression.MakeBinary(ExpressionType.OrElse, expression, binary);
+                }
+                return binary;
+            }
+            DbSet<Program> bset;
+            var c = Expression.Constant(argument);
+            var p = Expression.Parameter(typeof(Program));
+
+            Type type = GetType();
+            var propNames = type.GetProperties(BindingFlags.Instance | BindingFlags.Public).Where(x => x.PropertyType == typeof(string) && x.CanRead);
+            var containsExpressions = propNames.Select(x => containsExpression(p, c, x)).ToArray();
+            var exp123 = exp.Update(ors(containsExpressions), new ParameterExpression[] { p });
+
+            Console.WriteLine(exp.ToString());
+            Console.WriteLine(exp123.ToString());
         }
 
         private readonly IAsyncLock lck = new AsyncLock();

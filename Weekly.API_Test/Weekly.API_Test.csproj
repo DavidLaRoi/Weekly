@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Weekly.DB\Weekly.DB.csproj" />
+    <ProjectReference Include="..\Weekly.Utils\Weekly.Utils.csproj" />
   </ItemGroup>
 
 </Project>

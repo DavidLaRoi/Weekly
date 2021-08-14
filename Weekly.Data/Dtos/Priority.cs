@@ -1,4 +1,4 @@
-﻿namespace Weekly.Data
+﻿namespace Weekly.Data.Dtos
 {
     public class Priority : UserDto
     {

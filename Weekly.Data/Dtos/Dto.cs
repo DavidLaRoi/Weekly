@@ -1,9 +1,11 @@
 ﻿using System;
 
-namespace Weekly.Data
+namespace Weekly.Data.Dtos
 {
     public class Dto
     {
+        public Guid? Id { get; set; }
+
         public override bool Equals(object obj)
         {
             return obj is Dto other && other.Id == Id;
@@ -13,17 +15,6 @@ namespace Weekly.Data
         {
             return Id.GetHashCode();
         }
-
-        public Guid? Id { get; set; }
-
-    }
-
-    public class UserDto : Dto
-    {
-        public string Name { get; set; }
-
-        public string Description { get; set; }
-
     }
 
 }

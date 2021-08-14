@@ -1,11 +1,11 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "title": "Logic4.Marketing.API",
-    "version": "v1"
+    "title": "Weekly.API",
+    "version": "1.0"
   },
   "paths": {
-    "/api/Backlog": {
+    "/api/Backlog/GetBacklogs": {
       "get": {
         "tags": [
           "Backlog"
@@ -43,10 +43,28 @@
         }
       }
     },
-    "/api/statics": {
+    "/api/Group/GroupsGet": {
       "get": {
         "tags": [
-          "Statics"
+          "Group"
+        ],
+        "parameters": [
+          {
+            "name": "skip",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "take",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
         ],
         "responses": {
           "200": {
@@ -54,92 +72,113 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Priority"
-                  }
+                  "$ref": "#/components/schemas/GroupIEnumerableResult"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Priority"
-                  }
+                  "$ref": "#/components/schemas/GroupIEnumerableResult"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Priority"
-                  }
+                  "$ref": "#/components/schemas/GroupIEnumerableResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GroupIEnumerableResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GroupIEnumerableResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GroupIEnumerableResult"
                 }
               }
             }
           }
         }
-      },
-      "put": {
+      }
+    },
+    "/api/Group/GroupAdd": {
+      "post": {
         "tags": [
-          "Statics"
+          "Group"
         ],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Priority"
+                "$ref": "#/components/schemas/Group"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Priority"
+                "$ref": "#/components/schemas/Group"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Priority"
+                "$ref": "#/components/schemas/Group"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "Success"
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "Statics"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Priority"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Priority"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/Priority"
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
               }
             }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              }
+            }
           }
         }
       }
     },
-    "/api/Task": {
+    "/api/Task/GetTask": {
       "get": {
         "tags": [
           "Task"
@@ -160,17 +199,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/Task"
+                  "$ref": "#/components/schemas/TaskResult"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Task"
+                  "$ref": "#/components/schemas/TaskResult"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Task"
+                  "$ref": "#/components/schemas/TaskResult"
                 }
               }
             }
@@ -181,7 +220,7 @@
   },
   "components": {
     "schemas": {
-      "Backlog": {
+      "Group": {
         "type": "object",
         "properties": {
           "id": {
@@ -195,16 +234,6 @@
           },
           "description": {
             "type": "string",
-            "nullable": true
-          },
-          "group": {
-            "$ref": "#/components/schemas/Group"
-          },
-          "items": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/BacklogItem"
-            },
             "nullable": true
           }
         },
@@ -245,49 +274,7 @@
         },
         "additionalProperties": false
       },
-      "Group": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid",
-            "nullable": true
-          },
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "Priority": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid",
-            "nullable": true
-          },
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "iconUrl": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "Task": {
+      "Backlog": {
         "type": "object",
         "properties": {
           "id": {
@@ -306,14 +293,52 @@
           "group": {
             "$ref": "#/components/schemas/Group"
           },
-          "duration": {
-            "$ref": "#/components/schemas/TimeSpan"
-          },
-          "tasks": {
+          "items": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/Task"
+              "$ref": "#/components/schemas/BacklogItem"
             },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GroupIEnumerableResult": {
+        "type": "object",
+        "properties": {
+          "succeeded": {
+            "type": "boolean"
+          },
+          "failed": {
+            "type": "boolean",
+            "readOnly": true
+          },
+          "errorMessage": {
+            "type": "string",
+            "nullable": true
+          },
+          "value": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Group"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Result": {
+        "type": "object",
+        "properties": {
+          "succeeded": {
+            "type": "boolean"
+          },
+          "failed": {
+            "type": "boolean",
+            "readOnly": true
+          },
+          "errorMessage": {
+            "type": "string",
             "nullable": true
           }
         },
@@ -376,6 +401,58 @@
             "type": "number",
             "format": "double",
             "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Task": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "group": {
+            "$ref": "#/components/schemas/Group"
+          },
+          "duration": {
+            "$ref": "#/components/schemas/TimeSpan"
+          },
+          "tasks": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Task"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TaskResult": {
+        "type": "object",
+        "properties": {
+          "succeeded": {
+            "type": "boolean"
+          },
+          "failed": {
+            "type": "boolean",
+            "readOnly": true
+          },
+          "errorMessage": {
+            "type": "string",
+            "nullable": true
+          },
+          "value": {
+            "$ref": "#/components/schemas/Task"
           }
         },
         "additionalProperties": false

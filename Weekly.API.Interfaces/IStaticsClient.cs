@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Weekly.Data;
+using Weekly.Data.Dtos;
 
 namespace Weekly.API.Client
 {
