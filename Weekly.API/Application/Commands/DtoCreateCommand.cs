@@ -25,7 +25,7 @@ namespace Weekly.API.Application.Commands
     public class DtoCreateCommandHandler<TRequest, TDto, TEntity> : IRequestHandler<TRequest, Result>
         where TRequest : DtoCreateCommand<TDto>
         where TDto : Data.Dtos.Dto
-        where TEntity : Entity
+        where TEntity : Entity, new()
     {
         private readonly WeeklyContext WeeklyContext;
         private readonly IMapper mapper;
@@ -44,12 +44,10 @@ namespace Weekly.API.Application.Commands
             }
 
             DbSet<TEntity> set = WeeklyContext.Set<TEntity>();
-            TEntity entity = await set.FirstOrDefaultAsync(x => x.Id == request.Dto.Id, cancellationToken);
-            if (entity is null)
-            {
-                throw new EntityNotFoundException(request.Dto.Id, typeof(TEntity));
-            }
+
+            var entity = new TEntity();
             mapper.Map(request.Dto, entity);
+            set.Add(entity);
             await WeeklyContext.SaveChangesAsync(cancellationToken);
 
             return Result.Success();

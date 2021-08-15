@@ -21,6 +21,8 @@ namespace Weekly.API.Application.Queries
         public Guid Id { get; }
     }
 
+
+
     public abstract class DtoQueryHandler<TRequest, TDto, TEntity> :
         IRequestHandler<TRequest, Result<TDto>>
         where TRequest : DtoQuery<TDto>

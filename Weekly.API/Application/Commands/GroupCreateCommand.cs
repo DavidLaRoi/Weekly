@@ -10,7 +10,7 @@ namespace Weekly.API.Application.Commands
         }
     }
 
-    public class GroupCreateCommandHandler : DtoCreateCommandHandler<GroupCreateCommand, Data.Dtos.Group, DB.Models.Entity>
+    public class GroupCreateCommandHandler : DtoCreateCommandHandler<GroupCreateCommand, Data.Dtos.Group, DB.Models.Group>
     {
         public GroupCreateCommandHandler(WeeklyContext weeklyContext, IMapper mapper) : base(weeklyContext, mapper)
         {
