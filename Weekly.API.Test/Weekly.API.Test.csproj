@@ -4,6 +4,10 @@
     <TargetFramework>net5.0</TargetFramework>
 
     <IsPackable>false</IsPackable>
+
+    <AssemblyName>Weekly.API.Test</AssemblyName>
+
+    <RootNamespace>Weekly.API.Test</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
