@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Weekly.DB.Models;
 
-namespace Weekly.API_Test
+namespace Weekly.API.Test
 {
     public class ContextConfigurer : IContextConfigurer
     {

@@ -25,6 +25,22 @@ namespace Weekly.Commands
             }
         }
 
+        [ConsoleVisible]
+        public void T()
+        {
+            decimal D = 12345678.12345678M;
+            var cultures = System.Globalization.CultureInfo.GetCultures((System.Globalization.CultureTypes)127);
+            foreach(var culture in cultures)
+            {
+                string s = D.ToString(culture);
+                if (s.Any(char.IsWhiteSpace))
+                {
+                    Console.WriteLine(culture.ToString());
+                }
+            }
+
+        }
+
         public string A { get; set; } = "not poo";
         public string B { get; set; }
         public string C { get; set; }

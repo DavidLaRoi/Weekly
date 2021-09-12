@@ -121,6 +121,9 @@ namespace Weekly.DB.Models
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(50);
+
+                entity.Property(e => e.Description);
+                
             });
 
             modelBuilder.Entity<Priority>(entity =>

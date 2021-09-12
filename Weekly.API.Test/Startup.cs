@@ -1,13 +1,12 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace Weekly.API_Test
+namespace Weekly.API.Test
 {
     public class Startup
     {
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient<Weekly.DB.Models.WeeklyContext>();
-            services.AddTransient<Weekly.DB.Models.IContextConfigurer, ContextConfigurer>();
+
         }
     }
 }

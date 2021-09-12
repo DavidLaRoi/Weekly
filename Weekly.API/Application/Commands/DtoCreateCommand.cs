@@ -20,7 +20,23 @@ namespace Weekly.API.Application.Commands
         public TDto Dto { get; }
     }
 
+    public interface GetDtoType
+    {
+        Type Gettope();
+    }
 
+    public interface GetDtoType<T> : GetDtoType
+    {
+        new Type Gettope() => typeof(T);
+    }
+
+    public class Poo : GetDtoType<int>
+    {
+        public Type Gettope()
+        {
+            throw new NotImplementedException();
+        }
+    }
 
     public class DtoCreateCommandHandler<TRequest, TDto, TEntity> : IRequestHandler<TRequest, Result>
         where TRequest : DtoCreateCommand<TDto>

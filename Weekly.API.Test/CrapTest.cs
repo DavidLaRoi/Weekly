@@ -5,7 +5,7 @@ using Xunit;
 using Xunit.Abstractions;
 using Xunit.DependencyInjection;
 
-namespace Weekly.API_Test
+namespace Weekly.API.Test
 {
 
     public class CrapTest 
